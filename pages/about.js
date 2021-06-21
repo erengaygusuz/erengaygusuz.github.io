@@ -40,22 +40,38 @@ export default function About() {
               Ben Eren Gaygusuz.
             </p>
             <p>
-            14 Aralık 1992 tarihinde Kadıköy, İstanbul'da doğdum. 13 yıl Kadıköy'ün Küçükbakkalköy Semt'inde yaşadım. İlk okulu burada yer alan Kemal Berktan İlk Öğretim Okulu'nda bitirdim. Ortaokul'a da aynı okulda başladım. 7. sınıfın ikinci dönemi taşınmak zorunda olduğumuz için okulum değişti. Kayışdağı'na taşındık. Orada Kayışdağı Arifpaşa İlk Öğretim Okulu'nda ortaokul'u bitirdim. 
+            14 Aralık 1992 yılında Kadıköy, İstanbul'da doğdum. 13 yıl Kadıköy'ün Küçükbakkalköy semtinde yaşadım. 
+            İlk okulu burada yer alan Kemal Berktan İlk Öğretim Okulu'nda bitirdim. Ortaokula da aynı okulda başladım. 
+            7. sınıfın ikinci dönemi taşınmak zorunda olduğumuz için okulum değişti. 
+            Kayışdağı'na taşındık. 
+            Orada Kayışdağı Arifpaşa İlk Öğretim Okulu'nda ortaokulu bitirdim. 
             </p>
             <p>
-            2007 yılı'nda, Ataşehir'deki T.E.B. Ataşehir Lisesi'ne başladım. Bir yıl orada okuduktan sonra yine taşınmak zorunda olduğumuz için Iğdır Merkez'e yerleştik. Bir anda Türkiye'nin bir ucundan diğer ucuna. :) Burada Iğdır Lisesi'ne başladım. 2011 yılı'nda liseyi bitirdim.
+            2007 yılında, Ataşehir'deki T.E.B. Ataşehir Lisesi'ne başladım. 
+            Bir yıl orada okuduktan sonra yine taşınmak zorunda olduğumuz için Iğdır Merkez'e yerleştik. 
+            Bir anda Türkiye'nin bir ucundan diğer ucuna. :) 
+            Burada Iğdır Lisesi'ne başladım. 2011 yılında liseyi bitirdim.
             </p>
             <p>
             2011 - 2013 yılında bir yandan üniversite sınavına hazırlanırken, bir yandan da Anadolu Üniversitesi Açıköğretim Fakültesi Fotoğrafçılık ve Kameramanlık Ön Lisans Programı'nı bitirdim.
             </p>
             <p>
-            2013 yılı'nda Ankara'ya taşınarak, Hacettepe Üniversitesi Eğitim Fakültesi Bilgisayar ve Öğretim Teknolojileri Eğitimi Bölümü'ne başladım. İki yıl burada okuduktan sonra bölüm değiştirmeye karar verdim. Fotoğrafçılık ve Kameramanlık Ön Lisans'ı bitirdiğim için DGS'ye girme hakkımı kullanıp başarılı oldum ve Hacettepe Güzel Sanatlar Fakültesi Grafik Bölümü'ne geçiş yaptım.
+            2013 yılında Ankara'ya taşınarak, Hacettepe Üniversitesi Eğitim Fakültesi Bilgisayar ve Öğretim Teknolojileri Eğitimi Bölümü'ne başladım. 
+            İki yıl burada okuduktan sonra bölüm değiştirmeye karar verdim. 
+            Fotoğrafçılık ve Kameramanlık Ön Lisans Programı'nı bitirdiğim için DGS'ye girme hakkım vardı.
+            Bu hakkı kullanıp sınava girdim, başarılı oldum ve Hacettepe Güzel Sanatlar Fakültesi Grafik Bölümü'ne geçiş yaptım.
             </p>
             <p>
-            2015 yılı sonunda, kısa süre içerisinde bu bölümünün de bana uygun olmadığına karar vererek tekrardan sınava hazırlandım. 2016 yılı'nda, Atılım Üniversitesi Mühendislik Fakültesi Yazılım Mühendisliği'ni kazandım. Bir yıllık hazırlık eğitimi sonrasında bölüme geçiş yaptım. 2020 yılı Ocak ayı'nda da bu bölümden mezun oldum.
+            2015 yılı sonunda, kısa süre içerisinde bu bölümünün de bana uygun olmadığına karar vererek tekrardan üniversite sınavına hazırlandım. 
+            2016 yılında, Atılım Üniversitesi Mühendislik Fakültesi Yazılım Mühendisliği Bölümü'nü kazandım. 
+            Bir yıllık hazırlık eğitimi sonrasında bölüme geçiş yaptım. 
+            2020 yılı Ocak ayı'nda da bu bölümden mezun oldum.
             </p>
             <p>
-            Üniversite sonrası bir yıla yakın bir iş deneyimim oldu. Şu sıralar herhangi bir yerde çalışmıyorum. Sadece yüksek lisans eğitimime odaklanmış durumdayım. Yüksek lisans eğitimime izin verildiği sürece çalışmaya ve iş tekliflerine açığım. 
+            Üniversite sonrası, Odtü Teknokent bünyesinde yer alan bir yazılım şirketinde ve bir startup şirketinde, yaklaşık bir yıllık iş deneyimim oldu. 
+            Şu sıralar herhangi bir yerde çalışmıyorum. 
+            Sadece yüksek lisans eğitimime odaklanmış durumdayım. 
+            Yüksek lisans eğitimime izin verildiği sürece çalışmaya ve iş tekliflerine açığım. 
             </p>
             <p>
             Benimle iletişime geçmek isterseniz sosyal medya ikonlarına tıklayabilirsiniz. :) 
