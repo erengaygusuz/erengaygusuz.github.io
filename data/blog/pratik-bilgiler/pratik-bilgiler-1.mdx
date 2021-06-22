@@ -1,80 +1,224 @@
 ---
 title: Pratik Bilgiler - 1
-date: '2021-06-13'
-lastmod: '2021-06-13'
+date: '2021-06-22'
+lastmod: '2021-06-22'
 tags: ['egitim', 'pratik']
-draft: true
-summary: 'In this article we introduce adding images in the tailwind starter blog and the benefits and limitations of the next/image component.'
+draft: false
+summary: 'Merhaba, Bu yazımda font awesome ikon kütüphanesinin Unity oyun moturunda nasıl kullanılabileceğini anlatacağım. Web tasarımı ile ilgilenenlerin sıklıkla... '
 ---
 
-# Introduction
+# Unity Oyun Motorunda Font Awesome İkon Kütüphanesinin Kullanımı
 
-The tailwind starter blog has out of the box support for [Next.js's built-in image component](https://nextjs.org/docs/api-reference/next/image) and automatically swaps out default image tags in markdown or mdx documents to use the Image component provided.
+Merhaba, 
 
-# Usage
+Bu yazımda font awesome ikon kütüphanesinin Unity oyun moturunda nasıl kullanılabileceğini anlatacağım. 
+Web tasarımı ile ilgilenenlerin sıklıkla tasarımlarında bu kütüphaneyi ve benzerleri kullandıklarını görmüşsünüzdür. 
+Aşağıdaki linke tıklayarak font awesome ikon kütüphanesi cheat sheet'ine erişebilirsiniz.
 
-To use in a new page route / javascript file, simply import the image component and call it e.g.
+https://fontawesome.com/cheatsheet
 
-```js
-import Image from 'next/image'
+Linke gittiğinizde üç türde ücretsiz ikonların yer aldığını görebilirsiniz. Regular, Solid ve Brands.
 
-function Home() {
-  return (
-    <>
-      <h1>My Homepage</h1>
-      <Image src="/me.png" alt="Picture of the author" width={500} height={500} />
-      <p>Welcome to my homepage!</p>
-    </>
-  )
+<Image src="/static/images/pratik-bilgiler-1/pic1.png" width={800} height={512} />
+
+Öncelikle burada yer alan (üç ayrı tab için de) ikon bilgilerini boş txt belgelerine kopyalıyorum. 
+
+<Image src="/static/images/pratik-bilgiler-1/pic2.png" width={800} height={512} />
+
+Bu bilgileri almamın sebebi içerisinde yer alan utf16 formatında ikon kod bilgisini kullanmak istemem. 
+Bu bilgileri kullanarak Unity içerisinde yer alan TextMesh Pro yardımıyla ikonları kullanabileceğiz.
+
+Bilgileri txt dosyalarına (şu şekilde kaydettim (regular.txt, brands.txt, solid.txt)) 
+
+<Image src="/static/images/pratik-bilgiler-1/pic3.png" width={800} height={512} />
+
+Kaydettikten sonra Unity'de boş bir proje açıyorum.
+
+Sonrasında font awesome otf uzantılı font dosyalarını indirmemiz gerekiyor. 
+Aşağıda yer alan linke giderek Free for Desktop butonuna tıklayarak gerekli paketi indiriyorum.
+
+https://fontawesome.com/download
+
+<Image src="/static/images/pratik-bilgiler-1/pic4.png" width={800} height={400} />
+
+Paketin içerisinde yer alan Font Awesome 5 Brands-Regular-400.otf, Font Awesome 5 Free-Regular-400.otf ve Font Awesome 5 Free-Solid-900.otf 
+adlı dosyaları Unity'de Resources/Fonts/FontAwesome dizinine ekliyorum. (Siz de bu dizin yoksa oluşturabilirsiniz.)
+
+<Image src="/static/images/pratik-bilgiler-1/pic5.png" width={800} height={512} />
+
+Bu işlemden sonra utf16 ikon kodlarına ihtiyacımız var. Txt dosyalarında yer alan ikon kodlarına baktığımızda her satırda yer alan verilerin, 
+tanımlanamayan ifade + tab boşluk + ikon açıklaması + tab boşluk + utf16 kod şeklinde yer aldığını farketmişsinizdir.  
+
+<Image alt="ocean" src="/static/images/pratik-bilgiler-1/pic6.png" width={800} height={512} />
+
+Txt dosyalarında yer alan utf16 ikon kodlarını f2b9,f2bb,f556 şeklinde arka arkaya ekleyerek elde etmemiz gerekiyor. Daha sonra bu içeriği Text Mesh Pro'da kullanacağız. 
+Bu işlemi elle yapmamak için basit düzeyde bir script dosyası oluşturdum. İsmini FontAwesomeIconCodeGenerator olarak verdim. 
+
+<Image src="/static/images/pratik-bilgiler-1/pic7.png" width={800} height={600} />
+
+Script içerisinde yapılması gereken üç dosyaya giderek içerisinde yer alan verileri satır satır okumak, her satırı yukarıdaki kurala göre parçalamak, 
+parçalanan string içerisinde yer alan ikon kodlarını alıp başka bir txt belgesine arka arkaya aralarında virgül olacak şekilde eklemek.
+
+### FontAwesomeIconCodeGenerator Script Dosyası
+
+Script içerisinde yukarıdaki işlemi yapabilmek için 9 değişken ve 3 adet fonksiyon oluşturdum. (Fonksiyonun 1 tanesi sadece konsolda görüntülemek için)
+
+Aşağıda değişken ve fonksiyonları açıklamaları ile birlikte görebilirsiniz.
+
+```csharp
+using System.Collections.Generic;
+using UnityEngine;
+using System.IO;
+
+public class FontAwesomeIconCodeGenerator : MonoBehaviour
+{
+    // Regular txt dosyası yolu için tanımlanan değişken
+    private string regularFilePath = @"C:\Users\User\Desktop\regular.txt";
+    // Regular için ikon adlarını ve utf16 kodlarını aktardığım dictionary koleksiyonu
+    private Dictionary<string, string> namesWithUtf16CodesRegular = new Dictionary<string, string>();
+    // Regular utf16 ikon kodlarının kaydedileceği yol için tanımlanan değişken
+    private string outRegularFilePath = @"C:\Users\User\Desktop\regular-utf16codes.txt";
+
+    // Solid txt dosyası yolu için tanımlanan değişken
+    private string solidFilePath = @"C:\Users\User\Desktop\solid.txt";
+    // Solid için ikon adlarını ve utf16 kodlarını aktardığım dictionary koleksiyonu
+    private Dictionary<string, string> namesWithUtf16CodesSolid = new Dictionary<string, string>();
+    // Solid utf16 ikon kodlarının kaydedileceği yol için tanımlanan değişken
+    private string outSolidFilePath = @"C:\Users\User\Desktop\solid-utf16codes.txt";
+
+    // Brands txt dosyası yolu için tanımlanan değişken
+    private string brandsFilePath = @"C:\Users\User\Desktop\brands.txt";
+    // Brands için ikon adlarını ve utf16 kodlarını aktardığım dictionary koleksiyonu
+    private Dictionary<string, string> namesWithUtf16CodesBrands = new Dictionary<string, string>();
+    // Brands utf16 ikon kodlarının kaydedileceği yol için tanımlanan değişken
+    private string outBrandsFilePath = @"C:\Users\User\Desktop\brands-utf16codes.txt";
+
+    private void Start()
+    {
+        TakeValuesFromFile(namesWithUtf16CodesRegular, regularFilePath);
+        TakeValuesFromFile(namesWithUtf16CodesSolid, solidFilePath);
+        TakeValuesFromFile(namesWithUtf16CodesBrands, brandsFilePath);
+
+        PrintValues(namesWithUtf16CodesRegular);
+        PrintValues(namesWithUtf16CodesSolid);
+        PrintValues(namesWithUtf16CodesBrands);
+
+        WriteValuesToFile(namesWithUtf16CodesRegular, outRegularFilePath);
+        WriteValuesToFile(namesWithUtf16CodesSolid, outSolidFilePath);
+        WriteValuesToFile(namesWithUtf16CodesBrands, outBrandsFilePath);
+    }
+
+    // Txtden verileri alıp dictionary'e aktaran fonksiyon
+    private void TakeValuesFromFile(Dictionary<string, string> namesWithUtf16Codes, string path)
+    {
+        StreamReader reader = new StreamReader(path);
+
+        string line;
+
+        while ((line = reader.ReadLine()) != null)
+        {
+            namesWithUtf16Codes.Add(line.Split('\t')[2], line.Split('\t')[1]);
+        }
+    }
+
+    // Dictionary'e aktarılan değerleri konsol ekranında gösteren fonksiyon
+    private void PrintValues(Dictionary<string, string> namesWithUtf16Codes)
+    {
+        int i = 0;
+
+        foreach (KeyValuePair<string, string> nameWithUtf16Code in namesWithUtf16Codes)
+        {
+            Debug.Log(i.ToString() + " Utf16 Code: " + nameWithUtf16Code.Key + ", Name: " + nameWithUtf16Code.Value);
+            i++;
+        }
+    }
+
+    // utf16 ikon kodlarını txtye kaydeden fonksiyon
+    private void WriteValuesToFile(Dictionary<string, string> namesWithUtf16Codes, string path)
+    {
+        StreamWriter writer = new StreamWriter(path);
+
+        int i = 0;
+
+        foreach (KeyValuePair<string, string> nameWithUtf16Code in namesWithUtf16Codes)
+        {
+            writer.Write(nameWithUtf16Code.Key);
+
+            if ((namesWithUtf16Codes.Count - 1) != i)
+            {
+                writer.Write(",");
+            }
+
+            i++;
+        }
+
+        writer.Close();
+    }
 }
-
-export default Home
 ```
+Projeyi çalıştırdığımızda masaüstünde üç adet daha txt dosyasının oluştuğunu göreceksiniz. (Örnek projeyi sayfa sonundaki linke giderek edinebilirsiniz.) 
 
-For a markdown file, the default image tag can be used and the default `img` tag gets replaced by the `Image` component in the build process.
+<Image alt="ocean" src="/static/images/pratik-bilgiler-1/pic8.png" width={800} height={400} />
 
-Assuming we have a file called `ocean.jpg` in `data/img/ocean.jpg`, the following line of code would generate the optimized image.
+Bu dosyaların içerisindeki verileri Text Mesh Pro ile kullanarak ikonlar için font dosyaları oluşturacağız.
+Bu işlem için Unity'de Window/TextMeshPro/Font Asset Creator yolunu izliyorum. 
 
-```
-![ocean](/static/images/ocean.jpg)
-```
+<Image alt="ocean" src="/static/images/pratik-bilgiler-1/pic9.png" width={800} height={512} />
 
-Alternatively, since we are using mdx, we can just use the image component directly! Note, that you would have to provide a fixed width and height. The `img` tag method parses the dimension automatically.
+Açılan pencerede yer alan Font Settings bölümünde bazı ayarlamalar yapacağız.
 
-```js
-<Image alt="ocean" src="/static/images/ocean.jpg" width={256} height={128} />
-```
+Source Font File kısmına Assets/Resources/Fonts/FontAwesome dizininde yer alan font dosyalarından ilkini (regular olan) sürüklüyorum. 
 
-_Note_: If you try to save the image, it is in webp format, if your browser supports it!
+Diğer ayarları aşağıdaki gibi seçiyorum.
 
-![ocean](/static/images/ocean.jpeg)
+- Sampling Point Size: Auto Sizing
+- Padding: 5
+- Packing Method: Fast
+- Atlas Resolution: 2048 x 2048
+- Character Set : Unicode Range (Hex)
+- Render Mode: SDFAA
 
-<p>
-  Photo by{' '}
-  <a href="https://unsplash.com/@yucar?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">
-    YUCAR FotoGrafik
-  </a>{' '}
-  on{' '}
-  <a href="https://unsplash.com/s/photos/sea?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">
-    Unsplash
-  </a>
-</p>
+Ayarlamaları bu şekilde yaptıktan sonra Character Sequence bölümüne hazırladığımız utf16 ikon kod verileri kopyala yapıştır yoluyla 
+aktarabiliriz. (şuan regular ile çalıştığımız için sadece onun txt dosyasında yer alan verilerini aldım.) 
 
-# Benefits
+Verileri aldıktan sonra Generate Font Atlas butonuna tıklıyorum. Sağ tarafta yer alan bölümde ikonların oluştuğunu görebilirsiniz. 
 
-- Smaller image size with Webp (~30% smaller than jpeg)
-- Responsive images - the correct image size is served based on the user's viewport
-- Lazy loading - images load as they are scrolled to the viewport
-- Avoids [Cumulative Layout Shift](https://web.dev/cls/)
-- Optimization on demand instead of build-time - no increase in build time!
+<Image alt="ocean" src="/static/images/pratik-bilgiler-1/pic10.png" width={800} height={512} />
 
-# Limitations
+Sonrasında Save butonuna tıklayarak yeni font dosyamı kaydediyorum. 
 
-- Due to the reliance of `next/image`, unless you are using an external image CDN like Cloudinary or Imgix, it is practically required to use Vercel for hosting. This is because the component acts like a serverless function that calls a highly optimized image CDN.
+<Image alt="ocean" src="/static/images/pratik-bilgiler-1/pic11.png" width={800} height={512} />
 
-  If you do not want to be tied to Vercel, you can remove `imgToJsx` in `remarkPlugins` in `lib/mdx.js`. This would avoid substituting the default `img` tag.
+Bu işlemi üç font dosyası için de tekrarlıyoruz. (diğer font dosyaları için onlara has oluşturduğumuz ikon kod verilerini txtden almayı unutmayın.)
 
-  Alternatively, one could wait for image optimization at build time to be supported. A different library, [next-optimized-images](https://github.com/cyrilwanner/next-optimized-images) does that, although it requires transforming the images through webpack which is not done here.
+Şimdi Project bölümüne gidelim. Aramaya tmp yazalım ve TMP Settings dosyasını açalım. 
 
-- Images from external links are not passed through `next/image`
-- All images have to be stored in the `public` folder e.g `/static/images/ocean.jpeg`
+<Image alt="ocean" src="/static/images/pratik-bilgiler-1/pic12.png" width={800} height={580} />
+
+Dosyayı açtığımızda sağ tarafta yer alan bölümde Fallback Font Assets listesine oluşturduğumuz üç yeni ikon dosyasını eklemeliyiz. 
+'+' butonuna tıklayarak yeni alanlar oluşturabilir ve sürükle bırak ile ekleme yapabilirsiniz.
+
+<Image alt="ocean" src="/static/images/pratik-bilgiler-1/pic13.png" width={800} height={600} />
+
+İşlemi tamamladıktan sonra oluşturduğumuz yeni ikon font dosyalarından birini seçiyorum. 
+Inspector'da scroll'u biraz aşağı çektikten sonra Character Table bölümünü genişletiyorum. 
+
+<Image alt="ocean" src="/static/images/pratik-bilgiler-1/pic14.png" width={800} height={680} />
+
+Gördüğünüz gibi ikonları ve utf16 kodlarını burada görebiliyoruz. 
+Örnek olması açısından Unity ikonuna karşılık gelen \uE049 ikon kodunu bir yere kaydediyorum.
+
+Sonrasında sahneme TextMeshPro Text nesnesi ekliyorum. Bu nesnenin TextMeshPro - Text (UI) componentine giderek Text Input değerini kaydettiğim \uE049 değeri ile değiştiriyorum. 
+Aşağıda da görüldüğü gibi ikonumuz sahnede görüntülendi.
+
+<Image alt="ocean" src="/static/images/pratik-bilgiler-1/pic15.png" width={800} height={400} />
+
+Dilerseniz farklı parametrelerle de oynarak değişik büyüklükte ve renkte ikonu biçimlendirebilirsiniz.
+
+<Image alt="ocean" src="/static/images/pratik-bilgiler-1/pic16.png" width={800} height={400} />
+
+Evet bu yazıda anlatacaklarım bu kadardı. Örnek projeye aşağıdaki adresten ulaşabilirsiniz.
+
+https://github.com/erengaygusuz/unity-font-awesome-icon-library
+
+Faydalı olması dileğiyle, iyi günler.
