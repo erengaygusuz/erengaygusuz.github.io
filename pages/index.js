@@ -18,7 +18,7 @@ export default function Home({ posts }) {
     <>
       <PageSeo
         title={siteMetadata.title}
-        description={siteMetadata.description}
+        description={``}
         url={siteMetadata.siteUrl}
       />
       <div className="divide-y divide-gray-200 dark:divide-gray-700">

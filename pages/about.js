@@ -6,8 +6,8 @@ export default function About() {
   return (
     <>
       <PageSeo
-        title={`About - ${siteMetadata.author}`}
-        description={`About me - ${siteMetadata.author}`}
+        title={`Hakkımda`}
+        description={`Hakkımda`}
         url={`${siteMetadata.siteUrl}/about`}
       />
       <div className="divide-y">
@@ -26,11 +26,6 @@ export default function About() {
             <div className="flex pt-6 space-x-3">
               <SocialIcon kind="mail" href={`mailto:${siteMetadata.email}`} />
               <SocialIcon kind="github" href={siteMetadata.github} />
-              <SocialIcon kind="facebook" href={siteMetadata.facebook} />
-              <SocialIcon kind="youtube" href={siteMetadata.youtube} />
-              <SocialIcon kind="linkedin" href={siteMetadata.linkedin} />
-              <SocialIcon kind="twitter" href={siteMetadata.twitter} />
-              <SocialIcon kind="instagram" href={siteMetadata.instagram} />
               <SocialIcon kind="kariyernet" href={siteMetadata.kariyernet} />
             </div>
           </div>
